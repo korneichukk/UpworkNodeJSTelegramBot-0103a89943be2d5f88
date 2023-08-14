@@ -1,5 +1,5 @@
 const { Api, TelegramClient } = require('telegram');
-const telegramBot = require('node-telegram-bot-api');
+// const telegramBot = require('node-telegram-bot-api');
 const StringSession = require('telegram/sessions').StringSession;
 const input = require('input');
 const fs = require('fs').promises;
@@ -109,6 +109,17 @@ async function processUsers(users) {
 
         console.log(users);
 
+        users.forEach(function (user) {
+            client.sendMessage(
+                user.get('id').value,
+                {
+                    message:
+                        'Hello, ' + user.get('first_name') + '!'
+                }
+            ).catch((err) => {
+                console.log(err);
+            });
+        });
 
     } catch (error) {
         console.error('Error:', error);
