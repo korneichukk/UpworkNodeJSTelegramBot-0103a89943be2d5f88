@@ -1,3 +1,4 @@
+'user strict';
 const { Api, TelegramClient } = require('telegram');
 // const telegramBot = require('node-telegram-bot-api');
 const StringSession = require('telegram/sessions').StringSession;
