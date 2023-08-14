@@ -9,6 +9,7 @@ require('dotenv').config();
 const apiId = parseInt(process.env.TELEGRAM_API_ID);
 const apiHash = process.env.TELEGRAM_API_HASH;
 const groupId = process.env.TELEGRAM_CHAT_ID;
+const message = process.env.MESSAGE;
 // const telegramBotToken = process.env.TELEGRAM_TOKEN;
 
 // const bot = new telegramBot(telegramBotToken, { polling: true });
@@ -114,8 +115,7 @@ async function processUsers(users) {
             client.sendMessage(
                 user.get('id').value,
                 {
-                    message:
-                        'Hello, ' + user.get('first_name') + '!'
+                    message: message
                 }
             ).catch((err) => {
                 console.log(err);
