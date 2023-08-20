@@ -34,12 +34,6 @@ async function writeSessionString(string) {
 }
 
 async function parseGroupForUsers(client) {
-    try {
-        await joinGoup(client);
-    } catch (err) {
-        console.error(err);
-    }
-
     const result = await client.invoke(
         new Api.messages.GetFullChat({
             chatId: groupId,
@@ -92,7 +86,7 @@ async function sendMessage(client, userID) {
     });
 }
 
-async function joinGoup(client) {
+async function joinGroup(client) {
     if (!groupInviteLink) {
         console.error('No group invite link provided.');
         return;
@@ -128,6 +122,18 @@ async function joinGoup(client) {
         }
 
         await client.connect();
+        // try {
+        //     await joinGoup(client);
+        // } catch (err) {
+        //     console.error(err);
+        // }
+        if (TELEGRAM_GROUP_INVITE_LINK) {
+            try {
+                joinGroup(client);
+            } catch (err) {
+                console.error(err);
+            }
+        }
 
         data = await parseGroupForUsers(client);
         users = await parseDataForUsers(data);
