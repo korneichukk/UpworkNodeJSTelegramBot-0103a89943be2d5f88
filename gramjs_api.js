@@ -33,6 +33,22 @@ async function writeSessionString(string) {
     });
 }
 
+async function writeUsersData(users) {
+    // console.log(users);
+    // const userObj = Object.fromEntries(users);
+    // console.log(userObj);
+
+
+    const usersObjArray = users.map((user) => Object.fromEntries(user));
+    console.log(usersObjArray);
+    const usersJSON = JSON.stringify(usersObjArray, null, 2);
+    fs.writeFile(__dirname + `/users-${groupId}.json`, usersJSON, function (err) {
+        if (err) return console.log(err);
+        console.log('Users data saved.');
+    });
+
+}
+
 async function parseGroupForUsers(client) {
     const result = await client.invoke(
         new Api.messages.GetFullChat({
@@ -127,7 +143,7 @@ async function joinGroup(client) {
         // } catch (err) {
         //     console.error(err);
         // }
-        if (TELEGRAM_GROUP_INVITE_LINK) {
+        if (groupInviteLink) {
             try {
                 joinGroup(client);
             } catch (err) {
@@ -138,6 +154,8 @@ async function joinGroup(client) {
         data = await parseGroupForUsers(client);
         users = await parseDataForUsers(data);
         users_cleaned = await cleanUsersData(users);
+        // console.log(users_cleaned);
+        await writeUsersData(users_cleaned);
 
         users_cleaned.forEach(function (user) {
             sendMessage(client, user.get('id').value);
